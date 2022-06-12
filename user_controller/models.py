@@ -55,11 +55,11 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=30)
+    username = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     email_verified = models.BooleanField(default=False)
     user_type = models.CharField(
-        max_length=8, choices=UserTypes, default=UserTypes[1])
+        max_length=100, choices=UserTypes, default=UserTypes[1])
     type_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
