@@ -6,6 +6,7 @@ from user_controller.models import CustomUser
 from user_controller.views import add_user_activity
 from django.utils.text import slugify
 from pyuploadcare.dj.models import ImageField
+from tinymce.models import HTMLField
 
 
 class InventoryGroup(models.Model):
@@ -99,7 +100,7 @@ class Inventory(models.Model):
         decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    description = models.TextField(default="", max_length=500)
+    description = HTMLField(default="")
     sizes = models.ManyToManyField(Size, related_name="inventory_sizes")
     colors = models.ManyToManyField(Color, related_name="inventory_colors")
 

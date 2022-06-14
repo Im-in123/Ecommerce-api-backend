@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'user_controller',
     'inventory_controller',
     'store_controller',
-    'pyuploadcare'
+    'pyuploadcare',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
