@@ -133,9 +133,9 @@ class InventoryView(ModelViewSet):
                                 item.delete()
                         except Exception as e:
                             print(e)
-                old_p = Photo.objects.all().filter(created_by=request.user, has_inv=False)
-                for p in old_p:
-                    p.delete()
+                # old_p = Photo.objects.all().filter(created_by=request.user, has_inv=False)
+                # for p in old_p:
+                #     p.delete()
                 return Response({"success": "success"}, status=200)
 
             except Exception as e:
@@ -247,9 +247,10 @@ class InventoryView(ModelViewSet):
                                 item.delete()
                         except Exception as e:
                             print(e)
-                old_p = Photo.objects.all().filter(created_by=request.user, has_inv=False)
-                for p in old_p:
-                    p.delete()
+                # old_p = Photo.objects.all().filter(created_by=request.user, has_inv=False)
+                # for p in old_p:
+                #     p.delete()
+                # create a view that loops and checks if photo has online photo and then delete
             except Exception as e:
                 print(e)
 
@@ -260,6 +261,20 @@ class InventoryView(ModelViewSet):
         serializer.save()
 
         return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        if request.user.type_verified != True:
+            return Response({"error": "You do not have permission to delete!"}, status=400)
+
+        slug = kwargs.get("slug", None)
+        if not slug:
+            return Response({"error": "no slug received"}, status=400)
+        inv = get_object_or_404(self.queryset, slug=slug)
+        for p in inv.photo.all():
+            p.has_inv = False
+            p.save()
+        inv.delete()
+        return Response({"sucess": "item deleted"}, status=200)
 
 
 class InventoryGroupView(ModelViewSet):

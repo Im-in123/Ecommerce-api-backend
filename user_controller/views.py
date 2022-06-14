@@ -93,7 +93,7 @@ class LoginView(APIView):
 
         if not user:
             return Response(
-                {"error": "Invalid email or password"},
+                {"error": {"error":'Invalid email or password'}},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -164,7 +164,8 @@ class MeView(APIView):
                     "id": request.user.id,
                     "email_verified": request.user.email_verified,
                     "email": request.user.email,
-
+                    "user_type": request.user.user_type,
+                    "type_verified": request.user.type_verified
                 },
             }
         return Response(data, status=200)
