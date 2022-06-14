@@ -11,7 +11,7 @@ from .serializers import(
 )
 from ecommerce_api.utils import CustomPagination
 from rest_framework.viewsets import ModelViewSet
-from ecommerce_api.utils import CustomPagination, get_query
+from ecommerce_api.utils import CustomPagination, get_query, normalize_query
 from django.db.models import Q, Count, Sum, F
 from django.db.models.functions import Coalesce, TruncMonth
 from rest_framework.views import APIView
@@ -273,16 +273,17 @@ class RelatedProductView(ModelViewSet):
         results = self.queryset.filter(**data)
 
         if keyword:
-            # if  keyword=="":
 
-            search_fields = (
-
-                "name",  # , "group__name", "group__belongs_to__name"
-            )
-            query = get_query(keyword, search_fields)
-            print("query::", query)
-            print("kk:", keyword)
-            return results.filter(query).exclude(Q(name=keyword))
+            query = normalize_query(keyword)
+            new_res = []
+            for k in query:
+                r = results.filter(Q(name__icontains=k) |
+                                   Q(name__iexact=k)).exclude(Q(name=keyword))
+                for o in r:
+                    if o not in new_res:
+                        new_res.append(o)
+            print("new_res:::", new_res)
+            return new_res
 
         return results
 
