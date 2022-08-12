@@ -21,8 +21,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'SucessandHoliness#5d8@#9gj6&y#l#rwim1ym#+5t=z$kp$tzb9o)z%v#gnag7sz'
-# SECRET_KEY = os.environ.get('secret_key')
+# SECRET_KEY =
+SECRET_KEY = os.environ.get('secret_key')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -175,8 +175,8 @@ REST_FRAMEWORK = {
 }
 
 UPLOADCARE = {
-    'pub_key': 'ee10e420cf6fcd584520',
-    'secret': "32d3388d93d377739ba0"
+    'pub_key':  os.environ.get('pub_key'),
+    'secret': os.environ.get('secret')
 }
 
 
